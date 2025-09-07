@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import {CloudinaryImage, ResponsiveCloudinaryImage, cloudinaryStories, getImageUrl} from '../utils/cloudinary';
 
 const StoriesSection = () => {
     const [activeStory, setActiveStory] = useState(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+    const [progress, setProgress] = useState(0);
 
-    const stories = [
-        {
-            id: 'weddings',
-            title: 'חתונות',
-            images: ['חתונה 1', 'חתונה 2', 'חתונה 3', 'חתונה 4', 'חתונה 5']
-        },
-        {
-            id: 'bar-mitzvah',
-            title: 'בר מצווה',
-            images: ['בר מצווה 1', 'בר מצווה 2', 'בר מצווה 3']
-        },
-        {
-            id: 'bat-mitzvah',
-            title: 'בת מצווה',
-            images: ['בת מצווה 1', 'בת מצווה 2', 'בת מצווה 3', 'בת מצווה 4']
-        },
-        {
-            id: 'events',
-            title: 'אירועים',
-            images: ['אירוע 1', 'אירוע 2', 'אירוע 3']
-        },
-        {
-            id: 'portraits',
-            title: 'פורטרטים',
-            images: ['פורטרט 1', 'פורטרט 2']
+    const STORY_DURATION = 3000; // 3 שניות לכל תמונה
+
+    // התקדמות אוטומטית
+    useEffect(() => {
+        let interval;
+
+        if (activeStory && !isPaused) {
+            interval = setInterval(() => {
+                setProgress(prev => {
+                    if (prev >= 100) {
+                        nextImage();
+                        return 0;
+                    }
+                    return prev + (100 / (STORY_DURATION / 50));
+                });
+            }, 50);
         }
-    ];
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [activeStory, currentImageIndex, isPaused]);
 
     useEffect(() => {
         const handleEscape = (e) => {
@@ -54,23 +52,28 @@ const StoriesSection = () => {
     const openStory = (storyId) => {
         setActiveStory(storyId);
         setCurrentImageIndex(0);
+        setProgress(0);
+        setIsPaused(false);
     };
 
     const closeStory = () => {
         setActiveStory(null);
         setCurrentImageIndex(0);
+        setProgress(0);
+        setIsPaused(false);
     };
 
     const nextImage = () => {
-        const story = stories.find(s => s.id === activeStory);
+        const story = cloudinaryStories.find(s => s.id === activeStory);
         if (story && currentImageIndex < story.images.length - 1) {
             setCurrentImageIndex(prev => prev + 1);
+            setProgress(0);
         } else {
-            // עבור לסטורי הבא
-            const currentStoryIndex = stories.findIndex(s => s.id === activeStory);
-            if (currentStoryIndex < stories.length - 1) {
-                setActiveStory(stories[currentStoryIndex + 1].id);
+            const currentStoryIndex = cloudinaryStories.findIndex(s => s.id === activeStory);
+            if (currentStoryIndex < cloudinaryStories.length - 1) {
+                setActiveStory(cloudinaryStories[currentStoryIndex + 1].id);
                 setCurrentImageIndex(0);
+                setProgress(0);
             } else {
                 closeStory();
             }
@@ -80,16 +83,20 @@ const StoriesSection = () => {
     const prevImage = () => {
         if (currentImageIndex > 0) {
             setCurrentImageIndex(prev => prev - 1);
+            setProgress(0);
         } else {
-            // עבור לסטורי הקודם
-            const currentStoryIndex = stories.findIndex(s => s.id === activeStory);
+            const currentStoryIndex = cloudinaryStories.findIndex(s => s.id === activeStory);
             if (currentStoryIndex > 0) {
-                const prevStory = stories[currentStoryIndex - 1];
+                const prevStory = cloudinaryStories[currentStoryIndex - 1];
                 setActiveStory(prevStory.id);
                 setCurrentImageIndex(prevStory.images.length - 1);
+                setProgress(0);
             }
         }
     };
+
+    const currentStory = cloudinaryStories.find(s => s.id === activeStory);
+    const currentImage = currentStory?.images[currentImageIndex];
 
     return (
         <section className="py-8 bg-gray-50">
@@ -98,12 +105,11 @@ const StoriesSection = () => {
                     הסטוריז שלי
                 </h2>
 
-                {/* סטוריז גריד - כמו אינסטגרם */}
                 <div className="max-w-md mx-auto">
-                    {/* במובייל - שורה אחת עם גלילה אופקית */}
+                    {/* במובייל - שורה אחת עם גלילה */}
                     <div className="md:hidden">
                         <div className="flex gap-4 overflow-x-auto pb-4 px-2 scrollbar-hide">
-                            {stories.map((story) => (
+                            {cloudinaryStories.map((story) => (
                                 <button
                                     key={story.id}
                                     onClick={() => openStory(story.id)}
@@ -112,9 +118,12 @@ const StoriesSection = () => {
                                 >
                                     <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5 group-active:scale-95 transition-transform">
                                         <div className="w-full h-full rounded-full bg-white p-0.5">
-                                            <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-xs font-medium overflow-hidden">
-                                                {story.title}
-                                            </div>
+                                            <CloudinaryImage
+                                                publicId={story.thumbnail}
+                                                alt={`תצוגה מקדימה של ${story.title}`}
+                                                size="storyMobile"
+                                                className="w-full h-full rounded-full object-cover"
+                                            />
                                         </div>
                                     </div>
                                     <span className="text-xs text-gray-700 font-medium text-center max-w-[4rem] truncate">
@@ -125,9 +134,9 @@ const StoriesSection = () => {
                         </div>
                     </div>
 
-                    {/* בטאבלט ודסקטופ - גריד */}
-                    <div className="hidden md:grid md:grid-cols-4 lg:grid-cols-5 gap-32 justify-items-center">
-                        {stories.map((story) => (
+                    {/* בדסקטופ - שורה אחת עם רווחים */}
+                    <div className="hidden md:flex md:justify-center md:gap-6 lg:gap-8">
+                        {cloudinaryStories.map((story) => (
                             <button
                                 key={story.id}
                                 onClick={() => openStory(story.id)}
@@ -136,9 +145,12 @@ const StoriesSection = () => {
                             >
                                 <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5 group-hover:scale-105 transition-transform">
                                     <div className="w-full h-full rounded-full bg-white p-0.5">
-                                        <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-gray-600 text-sm font-medium">
-                                            {story.title}
-                                        </div>
+                                        <CloudinaryImage
+                                            publicId={story.thumbnail}
+                                            alt={`תצוגה מקדימה של ${story.title}`}
+                                            size="storyThumb"
+                                            className="w-full h-full rounded-full object-cover"
+                                        />
                                     </div>
                                 </div>
                                 <span className="text-sm text-gray-700 font-medium text-center">
@@ -150,39 +162,39 @@ const StoriesSection = () => {
                 </div>
             </div>
 
-            {/* מודל סטורי - מסך מלא כמו אינסטגרם */}
+            {/* מודל סטורי */}
             {activeStory && (
                 <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
                     {/* פס התקדמות */}
                     <div className="absolute top-4 left-4 right-4 flex gap-1 z-20">
-                        {stories.find(s => s.id === activeStory)?.images.map((_, index) => (
-                            <div
-                                key={index}
-                                className="flex-1 h-0.5 bg-white/30 rounded overflow-hidden"
-                            >
+                        {currentStory?.images.map((_, index) => (
+                            <div key={index} className="flex-1 h-0.5 bg-white/30 rounded overflow-hidden">
                                 <div
-                                    className={`h-full bg-white transition-all duration-300 ${
-                                        index === currentImageIndex ? 'w-full' :
+                                    className={`h-full bg-white transition-all duration-100 ${
+                                        index === currentImageIndex ? 'transition-none' :
                                             index < currentImageIndex ? 'w-full' : 'w-0'
                                     }`}
+                                    style={{
+                                        width: index === currentImageIndex ? `${progress}%` :
+                                            index < currentImageIndex ? '100%' : '0%'
+                                    }}
                                 />
                             </div>
                         ))}
                     </div>
 
-                    {/* כותרת וכפתור סגירה */}
+                    {/* כותרת וסגירה */}
                     <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20">
                         <div className="flex items-center gap-3 text-white">
                             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-400 to-purple-600 p-0.5">
-                                <div className="w-full h-full rounded-full bg-black/20 flex items-center justify-center">
-                                    <span className="text-xs font-bold">
-                                        {stories.find(s => s.id === activeStory)?.title.charAt(0)}
-                                    </span>
-                                </div>
+                                <CloudinaryImage
+                                    publicId={currentStory?.thumbnail}
+                                    alt={currentStory?.title}
+                                    size="storyMobile"
+                                    className="w-full h-full rounded-full object-cover"
+                                />
                             </div>
-                            <span className="font-medium">
-                                {stories.find(s => s.id === activeStory)?.title}
-                            </span>
+                            <span className="font-medium">{currentStory?.title}</span>
                         </div>
 
                         <button
@@ -194,12 +206,11 @@ const StoriesSection = () => {
                         </button>
                     </div>
 
-                    {/* ניווט בדסקטופ */}
+                    {/* ניווט דסקטופ */}
                     <button
                         onClick={prevImage}
                         className="hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 text-white z-20 p-3 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
                         aria-label="תמונה קודמת"
-                        disabled={currentImageIndex === 0}
                     >
                         <ChevronRight className="w-6 h-6" />
                     </button>
@@ -212,51 +223,36 @@ const StoriesSection = () => {
                         <ChevronLeft className="w-6 h-6" />
                     </button>
 
-                    {/* תוכן הסטורי עם פאוז על לחיצה */}
+                    {/* תוכן הסטורי */}
                     <div
-                        className="w-full h-full flex items-center justify-center relative bg-gradient-to-br from-gray-900 to-black"
+                        className="w-full h-full flex items-center justify-center relative"
+                        onMouseDown={() => setIsPaused(true)}
+                        onMouseUp={() => setIsPaused(false)}
+                        onTouchStart={() => setIsPaused(true)}
+                        onTouchEnd={() => setIsPaused(false)}
                     >
-                        <div className="text-white text-center p-8 max-w-md">
-                            <div className="text-2xl md:text-3xl font-bold mb-4">
-                                {stories.find(s => s.id === activeStory)?.title}
-                            </div>
-                            <div className="text-lg mb-6 opacity-80">
-                                תמונה {currentImageIndex + 1} מתוך {stories.find(s => s.id === activeStory)?.images.length}
-                            </div>
-                            <div className="text-base opacity-70 mb-8">
-                                {stories.find(s => s.id === activeStory)?.images[currentImageIndex]}
-                            </div>
+                        {currentImage && (
+                            <div className="relative w-full h-full flex items-center justify-center">
+                                <img
+                                    src={getImageUrl(currentImage.publicId, 800, 600)}
+                                    alt={currentImage.alt}
+                                    className="max-w-full max-h-full object-contain"
+                                    loading="lazy"
+                                />
 
-                            {/* כפתורי ניווט למובייל */}
-                            <div className="flex justify-center gap-4 md:hidden">
-                                <button
-                                    onClick={prevImage}
-                                    disabled={currentImageIndex === 0}
-                                    className="bg-white/20 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                                >
-                                    הקודמת
-                                </button>
-                                <button
-                                    onClick={nextImage}
-                                    className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-                                >
-                                    הבאה
-                                </button>
+                                {/* כיתוב התמונה */}
+                                <div className="absolute bottom-20 left-4 right-4 text-center">
+                                    <p className="text-white text-lg font-medium bg-black/30 backdrop-blur-sm rounded-lg px-4 py-2">
+                                        {currentImage.caption}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
 
-                    {/* אזורי מגע למובייל - כמו אינסטגרם */}
-                    <div
-                        className="md:hidden absolute right-0 top-0 bottom-0 w-1/3 z-10"
-                        onClick={prevImage}
-                        aria-label="תמונה קודמת"
-                    />
-                    <div
-                        className="md:hidden absolute left-0 top-0 bottom-0 w-1/3 z-10"
-                        onClick={nextImage}
-                        aria-label="תמונה הבאה"
-                    />
+                    {/* אזורי מגע למובייל */}
+                    <div className="md:hidden absolute right-0 top-0 bottom-0 w-1/3 z-10" onClick={prevImage} />
+                    <div className="md:hidden absolute left-0 top-0 bottom-0 w-1/3 z-10" onClick={nextImage} />
                 </div>
             )}
 
