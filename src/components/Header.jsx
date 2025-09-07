@@ -9,12 +9,7 @@ const Header = () => {
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
-        // Close mobile menu after navigation
         setIsMobileMenuOpen(false);
-    };
-
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
     const menuItems = [
@@ -29,7 +24,7 @@ const Header = () => {
         <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-40">
             <nav className="container mx-auto px-4 py-3">
                 <div className="flex items-center justify-between">
-                    {/* Desktop Navigation Menu - Left side in RTL */}
+                    {/* Desktop Navigation */}
                     <ul className="hidden md:flex items-center gap-8" role="menubar">
                         {menuItems.map(item => (
                             <li key={item.id} role="none">
@@ -45,19 +40,16 @@ const Header = () => {
                         ))}
                     </ul>
 
-                    {/* Mobile Menu Button - Left side in RTL */}
+                    {/* Mobile Menu Button */}
                     <button
-                        onClick={toggleMobileMenu}
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="md:hidden p-2 text-gray-700 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
                         aria-label={isMobileMenuOpen ? 'סגור תפריט' : 'פתח תפריט'}
                         aria-expanded={isMobileMenuOpen}
                     >
-                        {isMobileMenuOpen ? (
-                            <X className="w-6 h-6" />
-                        ) : (
-                            <Menu className="w-6 h-6" />
-                        )}
+                        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
+
                     {/* Logo */}
                     <div className="flex items-center gap-2">
                         <div className="w-10 h-10 relative">
@@ -71,10 +63,9 @@ const Header = () => {
                         </div>
                         <span className="text-xl font-bold text-gray-800">יניב ישר</span>
                     </div>
-
                 </div>
 
-                {/* Mobile Menu Dropdown */}
+                {/* Mobile Menu */}
                 {isMobileMenuOpen && (
                     <div className="md:hidden mt-4 pb-4 border-t border-gray-200 bg-white/95 backdrop-blur-sm">
                         <ul className="flex flex-col space-y-2 mt-4" role="menu">
@@ -93,7 +84,6 @@ const Header = () => {
                         </ul>
                     </div>
                 )}
-
             </nav>
         </header>
     );

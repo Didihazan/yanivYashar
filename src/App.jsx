@@ -7,7 +7,8 @@ import AboutSection from './components/AboutSection';
 import GallerySection from './components/GallerySection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-// Import LegalModals is handled in Footer component
+import CookieConsent from './components/CookieConsent';
+import AccessibilityWidget from "./components/AccessibilityWidget.jsx";
 
 const App = () => {
     return (
@@ -22,6 +23,8 @@ const App = () => {
                 <ContactSection />
             </main>
             <Footer />
+            <CookieConsent />
+            <AccessibilityWidget />
         </div>
     );
 };

@@ -1,58 +1,22 @@
 @import "tailwindcss";
 
-/* Reset and base styles for full website */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    width: 100%;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
-    color: #1f2937;
-    background-color: #ffffff;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-    width: 100%;
-    min-height: 100vh;
-}
-
-/* Hebrew RTL support */
 [dir="rtl"] {
     text-align: right;
 }
 
-/* Accessibility improvements */
-button:focus,
-a:focus,
-input:focus,
-textarea:focus {
+button:focus, a:focus, input:focus, textarea:focus {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
-}
-
-/* Smooth animations */
-* {
-    transition: all 0.3s ease;
-}
-
-/* Print styles */
-@media print {
-    body {
-        background: white !important;
-        color: black !important;
-    }
 }
