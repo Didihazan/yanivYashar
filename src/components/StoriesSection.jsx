@@ -31,6 +31,20 @@ const StoriesSection = () => {
         };
     }, [activeStory, currentImageIndex, isPaused]);
 
+    // האזן לאירוע חיצוני שנשלח מה-HeroSection
+    useEffect(() => {
+        const onOpenStory = (e) => {
+            const id = e.detail;
+            if (!id) return;
+            setActiveStory(id);
+            setCurrentImageIndex(0);
+            setProgress(0);
+            setIsPaused(false);
+        };
+        window.addEventListener("openStory", onOpenStory);
+        return () => window.removeEventListener("openStory", onOpenStory);
+    }, []);
+
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === 'Escape') {
