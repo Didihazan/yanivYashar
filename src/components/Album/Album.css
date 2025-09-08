@@ -1,16 +1,29 @@
+/* רק תיקונים טכניים - ללא שינויי עיצוב */
 .album-container {
     width: 100%;
-    height: 40vh; /* Takes up a good portion of the screen height */
+    height: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px 0;
+    position: relative;
+    z-index: 1; /* תיקון overlapping */
+}
+
+/* תיקון למובייל */
+@media (max-width: 767px) {
+    .album-container {
+        height: 50vh; /* קצת יותר גובה למובייל */
+        padding: 20px 16px; /* padding הצידה */
+    }
 }
 
 .photo-album {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    background: #fff; /* A fallback background */
+    background: #fff;
+    position: relative;
+    z-index: 2; /* מעל לקונטיינר */
 }
 
 .page {
@@ -28,6 +41,13 @@
     padding: 20px;
 }
 
+/* תיקון padding למובייל */
+@media (max-width: 767px) {
+    .page-content {
+        padding: 12px;
+    }
+}
+
 /* Cover Styling */
 .page-cover {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
@@ -35,13 +55,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0 6px 6px 0; /* Rounded corner for the cover */
+    border-radius: 0 6px 6px 0;
 }
 
 .page-cover h2 {
     font-size: 2.5rem;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* תיקון גודל טקסט למובייל */
+@media (max-width: 767px) {
+    .page-cover h2 {
+        font-size: 1.8rem;
+    }
 }
 
 /* Inner Page Styling */
@@ -72,4 +99,11 @@
     border-top: 1px solid #eee;
     font-size: 0.9rem;
     color: #555;
+}
+
+/* תיקון גודל טקסט למובייל */
+@media (max-width: 767px) {
+    .page-footer {
+        font-size: 0.75rem;
+    }
 }

@@ -25,8 +25,8 @@ const Header = () => {
     const menuItems = [
         { id: "home", label: "בית" },
         { id: "testimonials", label: "המלצות" },
-        { id: "about", label: "אודות" },
         { id: "gallery", label: "גלריה" },
+        { id: "about", label: "אודות" },
         { id: "contact", label: "צור קשר" },
     ];
 

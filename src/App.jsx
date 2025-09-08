@@ -16,7 +16,7 @@ const App = () => {
             <Header />
             <main>
                 <HeroSection />
-                {/*<StoriesSection />*/}
+                <StoriesSection />
                 <TestimonialsSection />
                 <GallerySection />
                 <AboutSection />

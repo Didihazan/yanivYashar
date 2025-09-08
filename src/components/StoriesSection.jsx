@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import {CloudinaryImage, ResponsiveCloudinaryImage, cloudinaryStories, getImageUrl} from '../utils/cloudinary';
+import {CloudinaryImage, cloudinaryStories, getImageUrl} from '../utils/cloudinary';
 
 const StoriesSection = () => {
     const [activeStory, setActiveStory] = useState(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [container, setContainer] = useState(null);
 
     const STORY_DURATION = 3000; // 3 שניות לכל תמונה
+
+    // מצא את הקונטיינר של הסטוריז ב-HeroSection
+    useEffect(() => {
+        const storiesContainer = document.getElementById('stories-container');
+        setContainer(storiesContainer);
+    }, []);
 
     // התקדמות אוטומטית
     useEffect(() => {
@@ -30,20 +38,6 @@ const StoriesSection = () => {
             if (interval) clearInterval(interval);
         };
     }, [activeStory, currentImageIndex, isPaused]);
-
-    // האזן לאירוע חיצוני שנשלח מה-HeroSection
-    useEffect(() => {
-        const onOpenStory = (e) => {
-            const id = e.detail;
-            if (!id) return;
-            setActiveStory(id);
-            setCurrentImageIndex(0);
-            setProgress(0);
-            setIsPaused(false);
-        };
-        window.addEventListener("openStory", onOpenStory);
-        return () => window.removeEventListener("openStory", onOpenStory);
-    }, []);
 
     useEffect(() => {
         const handleEscape = (e) => {
@@ -112,69 +106,86 @@ const StoriesSection = () => {
     const currentStory = cloudinaryStories.find(s => s.id === activeStory);
     const currentImage = currentStory?.images[currentImageIndex];
 
-    return (
-        <section className="py-8 bg-gray-50">
-            <div className="container mx-auto px-4">
-                <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
-                    הסטוריז שלי
-                </h2>
+    // רכיב הסטוריז שיוצב ב-HeroSection
+    const StoriesPanel = () => (
+        <>
+            {/* כותרת קטנה - קריאה בלבד */}
+            <h2 className="sr-only">סטוריז</h2>
 
-                <div className="max-w-md mx-auto">
-                    {/* במובייל - שורה אחת עם גלילה */}
-                    <div className="md:hidden">
-                        <div className="flex gap-4 overflow-x-auto pb-4 px-2 scrollbar-hide">
-                            {cloudinaryStories.map((story) => (
-                                <button
-                                    key={story.id}
-                                    onClick={() => openStory(story.id)}
-                                    className="flex-shrink-0 flex flex-col items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-2"
-                                    aria-label={`פתח סטורי ${story.title}`}
-                                >
-                                    <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5 group-active:scale-95 transition-transform">
-                                        <div className="w-full h-full rounded-full bg-white p-0.5">
-                                            <CloudinaryImage
-                                                publicId={story.thumbnail}
-                                                alt={`תצוגה מקדימה של ${story.title}`}
-                                                size="storyMobile"
-                                                className="w-full h-full rounded-full object-cover"
-                                            />
-                                        </div>
-                                    </div>
-                                    <span className="text-xs text-gray-700 font-medium text-center max-w-[4rem] truncate">
-                                        {story.title}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* בדסקטופ - שורה אחת עם רווחים */}
-                    <div className="hidden md:flex md:justify-center md:gap-6 lg:gap-8">
-                        {cloudinaryStories.map((story) => (
-                            <button
-                                key={story.id}
-                                onClick={() => openStory(story.id)}
-                                className="flex flex-col items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-3"
-                                aria-label={`פתח סטורי ${story.title}`}
-                            >
-                                <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5 group-hover:scale-105 transition-transform">
-                                    <div className="w-full h-full rounded-full bg-white p-0.5">
-                                        <CloudinaryImage
-                                            publicId={story.thumbnail}
-                                            alt={`תצוגה מקדימה של ${story.title}`}
-                                            size="storyThumb"
-                                            className="w-full h-full rounded-full object-cover"
-                                        />
-                                    </div>
+            {/* מובייל – גלילה אופקית מתוקנת */}
+            <div className="md:hidden -mx-4 sm:-mx-6">
+                <div className="flex gap-4 overflow-x-auto pb-1 scrollbar-hide snap-x px-4 sm:px-6">
+                    {cloudinaryStories.map((s, index) => (
+                        <button
+                            key={s.id}
+                            onClick={() => openStory(s.id)}
+                            className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-2 ${
+                                index === cloudinaryStories.length - 1 ? 'mr-1 sm:mr-1' : ''
+                            }`}
+                            aria-label={`פתח סטורי ${s.title}`}
+                        >
+                            <div className="w-18 h-18 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5">
+                                <div className="w-full h-full rounded-full bg-white p-0.5">
+                                    <CloudinaryImage
+                                        publicId={s.thumbnail}
+                                        alt={`תצוגה מקדימה של ${s.title}`}
+                                        size="storyMobile"
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
                                 </div>
-                                <span className="text-sm text-gray-700 font-medium text-center">
-                                    {story.title}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
+                            </div>
+                            <span className="text-md text-gray-700 font-large text-center max-w-[4rem] truncate">
+                                {s.title}
+                            </span>
+                        </button>
+                    ))}
                 </div>
             </div>
+
+            {/* דסקטופ – ארבעה/חמישה עיגולים בשורה עם מרכוז מושלם */}
+            <div className="hidden md:flex items-center justify-center gap-6 lg:gap-8 w-full">
+                <div className="flex items-center justify-center gap-6 lg:gap-8">
+                    {cloudinaryStories.map((s) => (
+                        <button
+                            key={s.id}
+                            onClick={() => openStory(s.id)}
+                            className="flex flex-col items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-3"
+                            aria-label={`פתח סטורי ${s.title}`}
+                        >
+                            <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5 group-hover:scale-105 transition-transform">
+                                <div className="w-full h-full rounded-full bg-white p-0.5">
+                                    <CloudinaryImage
+                                        publicId={s.thumbnail}
+                                        alt={`תצוגה מקדימה של ${s.title}`}
+                                        size="storyThumb"
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                            <span className="text-md text-gray-700 font-large text-center">
+                                {s.title}
+                            </span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <style jsx>{`
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+            `}</style>
+        </>
+    );
+
+    return (
+        <>
+            {/* מציב את פאנל הסטוריז ב-HeroSection באמצעות Portal */}
+            {container && createPortal(<StoriesPanel />, container)}
 
             {/* מודל סטורי */}
             {activeStory && (
@@ -279,7 +290,7 @@ const StoriesSection = () => {
                     display: none;
                 }
             `}</style>
-        </section>
+        </>
     );
 };
 
