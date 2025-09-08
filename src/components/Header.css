@@ -23,7 +23,16 @@
 .desktop-nav-link:hover::after {
     width: 100%;
 }
-
+/* --- סגנון להבלטת הלוגו --- */
+.header-logo-image {
+    /* הטריק: אנחנו מייצרים 4 צללים לבנים, כל אחד בפאה אחרת,
+      בלי טשטוש. התוצאה היא קו מתאר לבן ונקי.
+    */
+    filter: drop-shadow(1px 1px 0 white)
+    drop-shadow(-1px -1px 0 white)
+    drop-shadow(1px -1px 0 white)
+    drop-shadow(-1px 1px 0 white);
+}
 /* --- תפריט מסך מלא במובייל --- */
 .mobile-menu-overlay {
     position: fixed;

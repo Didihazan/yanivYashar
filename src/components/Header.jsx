@@ -6,6 +6,7 @@ const LOGO_URL =
     "https://res.cloudinary.com/dwsvrbbw5/image/upload/v1757248571/Screenshot_2025-09-05_084041-removebg-preview_xmkb9t.png";
 
 const Header = () => {
+    // ... כל הלוגיקה של הרכיב נשארת זהה ...
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -39,6 +40,7 @@ const Header = () => {
         ? "text-gray-800 hover:text-orange-600 focus:ring-orange-500"
         : "text-white/90 hover:text-white focus:ring-white/70";
 
+
     return (
         <>
             <header
@@ -50,12 +52,9 @@ const Header = () => {
                 dir="rtl"
             >
                 <nav className="container mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between relative"> {/* Added relative positioning */}
+                    <div className="flex items-center justify-between relative">
 
-                        {/* --- מבנה לדסקטופ --- */}
                         <div className="hidden md:flex items-center justify-between w-full">
-
-                            {/* ניווט דסקטופ */}
                             <ul className="flex items-center gap-8" role="menubar">
                                 {menuItems.map((item) => (
                                     <li key={item.id} role="none">
@@ -69,15 +68,16 @@ const Header = () => {
                                     </li>
                                 ))}
                             </ul>
-                            {/* לוגו בדסקטופ (צד ימין) */}
                             <button onClick={() => scrollToSection("home")} className="flex items-center gap-2 group" aria-label="חזרה לראש הדף">
-                                <img src={LOGO_URL} alt="יניב ישר – לוגו" className="h-9 w-auto select-none pointer-events-none drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]" />
+                                <img
+                                    src={LOGO_URL}
+                                    alt="יניב ישר – לוגו"
+                                    className="h-9 w-auto select-none pointer-events-none header-logo-image" // *** הוספת הקלאס כאן ***
+                                />
                             </button>
                         </div>
 
-                        {/* --- מבנה למובייל --- */}
                         <div className="md:hidden flex items-center justify-between w-full">
-                            {/* כפתור תפריט מובייל (צד ימין) */}
                             <button
                                 onClick={() => setIsMobileMenuOpen((v) => !v)}
                                 className={`p-2 rounded-full focus:outline-none z-50 transition-colors ${ isMobileMenuOpen ? 'text-white' : linkColors }`}
@@ -87,21 +87,22 @@ const Header = () => {
                                 {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
                             </button>
 
-                            {/* הלוגו במובייל - ממורכז אבסולוטית */}
                             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                                 <button onClick={() => scrollToSection("home")} className="flex items-center gap-2 group" aria-label="חזרה לראש הדף">
-                                    <img src={LOGO_URL} alt="יניב ישר – לוגו" className="h-9 w-auto select-none pointer-events-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]" />
+                                    <img
+                                        src={LOGO_URL}
+                                        alt="יניב ישר – לוגו"
+                                        className="h-9 w-auto select-none pointer-events-none header-logo-image" // *** והוספת הקלאס גם כאן ***
+                                    />
                                 </button>
                             </div>
 
-                            {/* אלמנט ריק בצד שמאל כדי לשמור על איזון ה-justify-between. הוא לא נראה, רק שומר על המבנה. */}
                             <div className="w-7 h-7"></div>
                         </div>
                     </div>
                 </nav>
             </header>
 
-            {/* תפריט מסך מלא במובייל */}
             {isMobileMenuOpen && (
                 <div className="mobile-menu-overlay md:hidden">
                     <div className="mobile-menu-content">
