@@ -162,7 +162,7 @@ const LegalModals = () => {
                         className="w-full p-3 border rounded-lg"
                         rows="3"
                     ></textarea>
-                    <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded">
+                    <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded cursor-pointer">
                         שלח משוב
                     </button>
                 </div>
@@ -253,7 +253,7 @@ const LegalModals = () => {
                 <button
                     onClick={() => setActiveModal('terms')}
                     data-modal="terms"
-                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
+                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded cursor-pointer"
                 >
                     תנאי שימוש
                 </button>
@@ -261,7 +261,7 @@ const LegalModals = () => {
                 <button
                     onClick={() => setActiveModal('privacy')}
                     data-modal="privacy"
-                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
+                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded cursor-pointer"
                 >
                     מדיניות פרטיות
                 </button>
@@ -269,7 +269,7 @@ const LegalModals = () => {
                 <button
                     onClick={() => setActiveModal('accessibility')}
                     data-modal="accessibility"
-                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
+                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded cursor-pointer"
                 >
                     הצהרת נגישות
                 </button>

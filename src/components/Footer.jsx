@@ -15,7 +15,7 @@ const Footer = () => {
 
                 {/* --- חלק עליון ממותג --- */}
                 <div className="mb-12">
-                    <button onClick={scrollToTop} className="inline-block mb-6" aria-label="חזרה לראש העמוד">
+                    <button onClick={scrollToTop} className="inline-block mb-6 cursor-pointer" aria-label="חזרה לראש העמוד">
                         <img src={LOGO_URL} alt="יניב ישר - לוגו" className="h-12 w-auto mx-auto header-logo-image" />
                     </button>
                     <p className="text-xl md:text-2xl font-light text-gray-200 mb-8">
@@ -36,8 +36,8 @@ const Footer = () => {
                 {/* --- רשתות חברתיות ובר תחתון --- */}
                 <div className="border-t border-gray-400 pt-8">
                     <div className="flex justify-center gap-6 mb-6">
-                        <a href="https://instagram.com/yaniv_photography" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם" className="text-gray-300 hover:text-white transition-colors"><Instagram /></a>
-                        <a href="https://facebook.com/yaniv.photography" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק" className="text-gray-300 hover:text-white transition-colors"><Facebook /></a>
+                        <a href="https://instagram.com/yaniv_photography" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם" className="text-gray-300 hover:text-white transition-colors cursor-pointer"><Instagram /></a>
+                        <a href="https://facebook.com/yaniv.photography" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק" className="text-gray-300 hover:text-white transition-colors cursor-pointer"><Facebook /></a>
                     </div>
                     <div className="text-sm text-gray-400">
                         <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-4">

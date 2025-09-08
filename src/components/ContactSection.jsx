@@ -121,7 +121,7 @@ const ContactSection = () => {
 
                             <button
                                 type="submit"
-                                className="w-full flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300"
+                                className="w-full flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300 cursor-pointer"
                             >
                                 <Send className="w-5 h-5" />
                                 שלח פנייה
@@ -134,7 +134,7 @@ const ContactSection = () => {
                         <div>
                             <h3 className="text-2xl font-bold text-gray-800 mb-4">דרכי התקשרות נוספות</h3>
                             <div className="space-y-4">
-                                <a href="tel: 050-7973104" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+                                <a href="tel: 050-7973104" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
                                     <div className="bg-blue-100 text-blue-600 rounded-full p-3">
                                         <Phone className="w-6 h-6" />
                                     </div>
@@ -143,7 +143,7 @@ const ContactSection = () => {
                                         <p className="text-gray-600 group-hover:text-blue-600 transition-colors">050-7973104</p>
                                     </div>
                                 </a>
-                                <a href="https://wa.me/972507973104" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+                                <a href="https://wa.me/972507973104" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group cursor-pointer">
                                     <div className="bg-green-100 text-green-600 rounded-full p-3">
                                         <MessageCircle className="w-6 h-6" />
                                     </div>
@@ -157,16 +157,15 @@ const ContactSection = () => {
                         <div>
                             <h3 className="text-2xl font-bold text-gray-800 mb-4">עקבו אחרי ברשתות</h3>
                             <div className="flex gap-4">
-                                <a href="https://instagram.com/yaniv_photography" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-110">
+                                <a href="https://instagram.com/yaniv_photography" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-110 cursor-pointer">
                                     <Instagram className="w-7 h-7 text-pink-600" />
                                 </a>
-                                <a href="https://facebook.com/yaniv.photography" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-110">
+                                <a href="https://facebook.com/yaniv.photography" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-110 cursor-pointer">
                                     <Facebook className="w-7 h-7 text-blue-600" />
                                 </a>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>

@@ -119,7 +119,7 @@ const StoriesSection = () => {
                         <button
                             key={s.id}
                             onClick={() => openStory(s.id)}
-                            className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-2 ${
+                            className={`flex-shrink-0 snap-start flex flex-col items-center gap-2 focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-2 cursor-pointer ${
                                 index === cloudinaryStories.length - 1 ? 'mr-1 sm:mr-1' : ''
                             }`}
                             aria-label={`פתח סטורי ${s.title}`}
@@ -149,7 +149,7 @@ const StoriesSection = () => {
                         <button
                             key={s.id}
                             onClick={() => openStory(s.id)}
-                            className="flex flex-col items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-3"
+                            className="flex flex-col items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-orange-500 rounded-lg p-3 cursor-pointer"
                             aria-label={`פתח סטורי ${s.title}`}
                         >
                             <div className="w-24 h-24 lg:w-24 lg:h-24 rounded-full bg-gradient-to-tr from-orange-400 via-pink-500 to-purple-600 p-0.5 group-hover:scale-105 transition-transform">
@@ -214,7 +214,7 @@ const StoriesSection = () => {
 
                         <button
                             onClick={closeStory}
-                            className="text-white p-2 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                            className="text-white p-2 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
                             aria-label="סגור סטורי"
                         >
                             <X className="w-6 h-6" />
@@ -224,7 +224,7 @@ const StoriesSection = () => {
                     {/* ניווט דסקטופ */}
                     <button
                         onClick={prevImage}
-                        className="hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 text-white z-20 p-3 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                        className="hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 text-white z-20 p-3 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
                         aria-label="תמונה קודמת"
                     >
                         <ChevronRight className="w-6 h-6" />
@@ -232,7 +232,7 @@ const StoriesSection = () => {
 
                     <button
                         onClick={nextImage}
-                        className="hidden md:flex absolute left-4 top-1/2 transform -translate-y-1/2 text-white z-20 p-3 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+                        className="hidden md:flex absolute left-4 top-1/2 transform -translate-y-1/2 text-white z-20 p-3 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white cursor-pointer"
                         aria-label="תמונה הבאה"
                     >
                         <ChevronLeft className="w-6 h-6" />

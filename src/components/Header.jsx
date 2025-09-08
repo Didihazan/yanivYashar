@@ -32,7 +32,7 @@ const Header = () => {
         { id: "contact", label: "צור קשר" },
     ];
 
-    const linkBase = "transition-colors focus:outline-none focus:ring-2 rounded-sm whitespace-nowrap"; // הוספנו whitespace-nowrap
+    const linkBase = "transition-colors focus:outline-none focus:ring-2 rounded-sm whitespace-nowrap cursor-pointer"; // הוספנו whitespace-nowrap
     const linkColors = isScrolled
         ? "text-gray-800 hover:text-orange-600 focus:ring-orange-500"
         : "text-white/90 hover:text-white focus:ring-white/70";
@@ -50,9 +50,8 @@ const Header = () => {
             >
                 <nav className="container mx-auto px-6 py-4">
                     <div className="flex items-center justify-between relative md:grid md:grid-cols-3">
-
                         <div className="hidden md:flex justify-start">
-                            <button onClick={() => scrollToSection("home")} className="flex items-center gap-2 group" aria-label="חזרה לראש הדף">
+                            <button onClick={() => scrollToSection("home")} className="flex items-center gap-2 group cursor-pointer" aria-label="חזרה לראש הדף">
                                 <img
                                     src={LOGO_URL}
                                     alt="יניב ישר – לוגו"
@@ -69,7 +68,7 @@ const Header = () => {
                                         <button
                                             onClick={() => scrollToSection(item.id)}
                                             /* שינוי 2: גודל הפונט גמיש ונוסף איסור על שבירת שורה */
-                                            className={`desktop-nav-link text-base lg:text-lg font-medium ${linkBase} ${linkColors}`}
+                                            className={`desktop-nav-link text-base lg:text-lg font-medium cursor-pointer${linkBase} ${linkColors}`}
                                             role="menuitem"
                                         >
                                             {item.label}
@@ -86,7 +85,7 @@ const Header = () => {
                             {/* ... קוד המובייל ... */}
                             <button
                                 onClick={() => setIsMobileMenuOpen((v) => !v)}
-                                className={`p-2 rounded-full focus:outline-none z-50 transition-colors ${ isMobileMenuOpen ? 'text-white' : linkColors }`}
+                                className={`cursor-pointer p-2 rounded-full focus:outline-none z-50 transition-colors ${ isMobileMenuOpen ? 'text-white' : linkColors }`}
                                 aria-label={isMobileMenuOpen ? "סגור תפריט" : "פתח תפריט"}
                                 aria-expanded={isMobileMenuOpen}
                             >
@@ -94,7 +93,7 @@ const Header = () => {
                             </button>
 
                             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                <button onClick={() => scrollToSection("home")} className="flex items-center gap-2 group" aria-label="חזרה לראש הדף">
+                                <button onClick={() => scrollToSection("home")} className="cursor-pointer flex items-center gap-2 group" aria-label="חזרה לראש הדף">
                                     <img
                                         src={LOGO_URL}
                                         alt="יניב ישר – לוגו"
@@ -118,7 +117,7 @@ const Header = () => {
                             <button
                                 key={item.id}
                                 onClick={() => scrollToSection(item.id)}
-                                className="mobile-nav-link"
+                                className="cursor-pointer mobile-nav-link"
                             >
                                 {item.label}
                             </button>
