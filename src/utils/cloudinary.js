@@ -1,43 +1,69 @@
 import React from "react";
 
+// חשוב לוודא שהגדרת את המשתנה הזה בקובץ .env.local
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
+/**
+ * פונקציה ליצירת כתובת URL לתמונה מ-Cloudinary עם טרנספורמציות.
+ * @param {string} publicId - מזהה התמונה ב-Cloudinary.
+ * @param {number|null} width - רוחב התמונה הרצוי.
+ * @param {number|null} height - גובה התמונה הרצוי.
+ * @returns {string} - כתובת ה-URL המלאה של התמונה.
+ */
 export const getImageUrl = (publicId, width = null, height = null) => {
     let url = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/`;
 
     if (width || height) {
         const w = width ? `w_${width}` : '';
         const h = height ? `h_${height}` : '';
-        const transforms = [w, h].filter(Boolean).join(',');
+        // הוספנו c_fill,g_auto לחיתוך חכם של התמונה ושמירה על פרופורציות
+        const transforms = ['c_fill', 'g_auto', w, h].filter(Boolean).join(',');
         url += `${transforms}/`;
     }
 
+    // אופטימיזציות איכות ואוטומטיות
     url += 'q_auto,f_auto/';
     return url + publicId;
 };
 
-// רכיב תמונה רגיל
+/**
+ * רכיב תמונה משודרג וחסין לשגיאות.
+ * יודע לקבל מידות ב-3 דרכים:
+ * 1. size="storyMobile" (שם של הגדרה קבועה)
+ * 2. size={{ width: 300, height: 300 }} (אובייקט עם מידות)
+ * 3. width={300} height={300} (props נפרדים)
+ */
 export const CloudinaryImage = ({ publicId, width, height, alt, className, size, ...props }) => {
-    // הגדרות גדלים קבועים
-    const sizes = {
+    // הגדרות גדלים קבועים מראש
+    const predefinedSizes = {
         storyMobile: { width: 64, height: 64 },
         storyThumb: { width: 96, height: 96 },
         storyFull: { width: 800, height: 600 }
     };
 
-    const dimensions = size ? sizes[size] : { width, height };
+    let dimensions = { width, height }; // ברירת מחדל
+
+    if (typeof size === 'string' && predefinedSizes[size]) {
+        // מקרה 1: size="storyMobile"
+        dimensions = predefinedSizes[size];
+    } else if (typeof size === 'object' && size !== null && size.width && size.height) {
+        // מקרה 2: size={{ width: 300, height: 300 }}
+        dimensions = size;
+    }
+    // מקרה 3 (width ו-height נפרדים) מכוסה כבר בברירת המחדל
+
     const imageUrl = getImageUrl(publicId, dimensions.width, dimensions.height);
 
     return React.createElement('img', {
         src: imageUrl,
         alt: alt,
         className: className,
-        loading: 'lazy',
+        loading: 'lazy', // טעינה עצלה לשיפור ביצועים
         ...props
     });
 };
 
-// רכיב תמונה רספונסיבי
+// רכיב תמונה רספונסיבי נשאר כפי שהיה
 export const ResponsiveCloudinaryImage = ({ publicId, alt, className, ...props }) => {
     const imageUrl = getImageUrl(publicId);
 
@@ -50,7 +76,8 @@ export const ResponsiveCloudinaryImage = ({ publicId, alt, className, ...props }
     });
 };
 
-// הנתונים של הסטוריז עם כל 20 התמונות שלך
+
+// הנתונים של הסטוריז עם כל 20 התמונות שלך (נשאר ללא שינוי)
 export const cloudinaryStories = [
     // ------------------ חתונות ------------------
     {
@@ -109,6 +136,7 @@ export const cloudinaryStories = [
     },
 ];
 
+// פונקציית בדיקה נשארה כפי שהייתה
 export const testImageUrl = () => {
     return getImageUrl('צלם_1_199_g0uvak', 300, 200);
 };

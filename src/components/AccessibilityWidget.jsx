@@ -328,7 +328,7 @@ const AccessibilityWidget = () => {
                             📋 הצהרת נגישות מלאה
                         </button>
                         <div className="text-xs text-gray-500 text-center pt-2">
-                            רכז נגישות: יניב ישר | 050-1234567
+                            רכז נגישות: יניב ישר |  050-7973104
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,71 @@
+/* src/components/TestimonialsSection.css */
+
+.testimonials-background {
+    background-color: #f1f0ea; /* רקע עדין המדמה קיר או נייר */
+    /* אפשר להוסיף פה תמונת רקע של עץ עדין אם רוצים */
+    /* background-image: url('/path/to/wood-texture.jpg'); */
+}
+
+/* הקונטיינר שמחזיק את כל הפולארוידים */
+.polaroid-wall {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+/* עיצוב כרטיס פולארויד בודד */
+.polaroid-card {
+    position: relative;
+    width: 280px;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* אפקט ריחוף והתיישרות */
+.polaroid-card:hover {
+    transform: scale(1.1) rotate(0deg) !important; /* !important כדי לדרוס את הסיבוב המקרי */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+/* סיבוב אקראי לכל פולארויד */
+.polaroid-card:nth-child(5n+1) { transform: rotate(5deg); }
+.polaroid-card:nth-child(5n+2) { transform: rotate(-3deg); }
+.polaroid-card:nth-child(5n+3) { transform: rotate(4deg); }
+.polaroid-card:nth-child(5n+4) { transform: rotate(-6deg); }
+.polaroid-card:nth-child(5n+5) { transform: rotate(2deg); }
+
+/* התמונה בתוך הפולארויד */
+.polaroid-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background-color: #e0e0e0;
+}
+
+/* הטקסט בתחתית הפולארויד */
+.polaroid-caption {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.polaroid-quote {
+    font-family: 'Heebo', cursive; /* הפונט החדש */
+    font-size: 1rem; /* 24px */
+    color: #333;
+    min-height: 100px; /* גובה מינימלי להמלצה */
+}
+
+.polaroid-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+    margin-top: 0.5rem;
+}

@@ -9,7 +9,7 @@ const GallerySection = () => {
                     רגעים מהאלבומים
                 </h2>
                 <p className="text-center text-gray-600 text-lg mb-12 max-w-2xl mx-auto">
-                    כל תמונה היא סיפור, כל אלבום הוא חיים שלמים. דפדפו כדי לחוות את הקסם.
+                    כל תמונה היא סיפור, כל אלבום הוא חיים שלמים. זה הסטורי שלי.
                 </p>
 
                 {/* Here we use our new PhotoAlbum component */}

@@ -1,0 +1,44 @@
+/* src/components/AboutSection.css */
+
+.about-image-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 450px; /* גובה מינימלי להבטחת נראות */
+}
+
+/* ה"בלוב" שמשמש כרקע דקורטיבי */
+.about-image-bg-blob {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background-image: linear-gradient(135deg, #eff6ff 0%, #fef3c7 100%); /* כחול-צהוב עדין */
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; /* יוצר צורת בלוב */
+    animation: morph 8s ease-in-out infinite; /* אנימציה עדינה של שינוי צורה */
+    z-index: 1;
+}
+
+/* אנימציה שמשנה את צורת הבלוב ברקע */
+@keyframes morph {
+    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    50% { border-radius: 60% 40% 30% 70% / 60% 70% 30% 40%; }
+    100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+}
+
+/* התמונה עצמה, חתוכה בצורת בלוב */
+.about-image {
+    position: relative;
+    width: 85%;
+    height: auto;
+    max-width: 400px;
+    object-fit: cover;
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+    /* הקסם האמיתי: חיתוך התמונה לצורה אורגנית */
+    clip-path: polygon(
+            0% 25%, 20% 0%, 80% 0%, 100% 20%,
+            100% 80%, 85% 100%, 25% 100%, 0% 85%
+    );
+}

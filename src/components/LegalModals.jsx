@@ -97,7 +97,7 @@ const LegalModals = () => {
                     <p className="text-gray-700 font-medium mb-2">ממונה הגנת פרטיות:</p>
                     <p className="text-gray-600">יניב ישר</p>
                     <p className="text-gray-600">אימייל: privacy@yaniv-photography.com</p>
-                    <p className="text-gray-600">טלפון: 050-1234567</p>
+                    <p className="text-gray-600">טלפון:  050-7973104</p>
                     <p className="text-gray-600 mt-2">מענה תוך 30 יום לכל בקשה</p>
                 </div>
             </section>
@@ -148,7 +148,7 @@ const LegalModals = () => {
                     <p className="text-gray-700 font-medium mb-2">רכז נגישות:</p>
                     <p className="text-gray-600">יניב ישר</p>
                     <p className="text-gray-600">אימייל: accessibility@yaniv-photography.com</p>
-                    <p className="text-gray-600">טלפון: 050-1234567</p>
+                    <p className="text-gray-600">טלפון:  050-7973104</p>
                     <p className="text-gray-600">מענה: ראשון-חמישי, 9:00-17:00</p>
                 </div>
             </section>

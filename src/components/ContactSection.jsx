@@ -134,16 +134,16 @@ const ContactSection = () => {
                         <div>
                             <h3 className="text-2xl font-bold text-gray-800 mb-4">דרכי התקשרות נוספות</h3>
                             <div className="space-y-4">
-                                <a href="tel:050-1234567" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+                                <a href="tel: 050-7973104" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
                                     <div className="bg-blue-100 text-blue-600 rounded-full p-3">
                                         <Phone className="w-6 h-6" />
                                     </div>
                                     <div>
                                         <p className="font-semibold text-gray-800">טלפון</p>
-                                        <p className="text-gray-600 group-hover:text-blue-600 transition-colors">050-1234567</p>
+                                        <p className="text-gray-600 group-hover:text-blue-600 transition-colors">050-7973104</p>
                                     </div>
                                 </a>
-                                <a href="https://wa.me/972501234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+                                <a href="https://wa.me/972507973104" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
                                     <div className="bg-green-100 text-green-600 rounded-full p-3">
                                         <MessageCircle className="w-6 h-6" />
                                     </div>

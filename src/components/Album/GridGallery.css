@@ -1,0 +1,114 @@
+/* src/components/Album/GridGallery.css */
+/* --- Wrapper for Desktop Sizing --- */
+.gallery-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* כלל זה יופעל רק על מסכים ברוחב 768px ומעלה (טאבלטים ומחשבים) */
+@media (min-width: 768px) {
+    .gallery-container {
+        /* זו השורה החשובה!
+         היא מגבילה את רוחב הגלריה המקסימלי ל-960 פיקסלים.
+         שנה את הערך הזה כדי להגדיל או להקטין את התמונות בדסקטופ.
+         ערך קטן יותר = תמונות קטנות יותר.
+        */
+        max-width: 960px;
+    }
+}
+/* --- גריד קבוע של 3 עמודות --- */
+.photo-grid-gallery {
+    display: grid;
+    /* קובע תמיד 3 עמודות שוות ברוחבן */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px; /* רווח קטן יותר, כמו באינסטגרם */
+    padding: 4px;
+}
+
+.photo-grid-item {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    overflow: hidden;
+    background-color: #eee;
+    /* אין צורך בפינות מעוגלות בגריד צמוד */
+}
+
+.photo-grid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+}
+
+.photo-grid-img-loaded {
+    opacity: 1;
+}
+
+.photo-grid-item:hover .photo-grid-img {
+    transform: scale(1.05);
+}
+
+.photo-grid-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 12px;
+    color: white;
+    font-size: 0.9rem;
+    text-align: right;
+}
+
+.photo-grid-item:hover .overlay {
+    opacity: 1;
+}
+
+/* --- אלמנט הטעינה בתחתית הגלריה --- */
+.loading-trigger {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 1 / -1; /* גורם לו לתפוס את כל רוחב הגריד */
+}
+
+
+/* --- שאר הסגנונות של מציג הסטוריז נשארים כפי שהיו --- */
+/* (כל הסגנונות של story-viewer-overlay וכו' נשארים כאן) */
+.story-viewer-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #000;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+.story-viewer-background{position:absolute;inset:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover;filter:blur(20px) brightness(.5);transform:scale(1.1);opacity:.7}
+.story-viewer-content{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:50px 10px 30px}
+.story-viewer-image{max-width:100%;max-height:100%;-o-object-fit:contain;object-fit:contain;box-shadow:0 10px 30px rgba(0,0,0,.5);border-radius:8px;opacity:0;transition:opacity .4s ease}
+.story-viewer-image-loaded{opacity:1}
+.loader{width:48px;height:48px;border:5px solid #FFF;border-bottom-color:transparent;border-radius:50%;display:inline-block;box-sizing:border-box;animation:rotation 1s linear infinite;position:absolute}
+@keyframes rotation{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.story-viewer-header{position:absolute;top:0;left:0;right:0;padding:16px;display:flex;flex-direction:column;gap:8px;z-index:10}
+.story-viewer-progress-bars{display:flex;gap:4px;height:2px}
+.progress-bar-container{flex:1;background-color:hsla(0,0%,100%,.3);border-radius:2px}
+.progress-bar-fill{height:100%;background-color:#fff;border-radius:2px;transition:width .05s linear}
+.story-viewer-top-bar{display:flex;justify-content:space-between;align-items:center}
+.story-viewer-caption{font-size:.9rem;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,.5)}
+.story-viewer-close-btn{background:rgba(0,0,0,.3);border:none;color:#fff;cursor:pointer;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.story-viewer-nav-left,.story-viewer-nav-right{position:absolute;top:0;bottom:0;width:30%;cursor:pointer;z-index:5}
+.story-viewer-nav-left{left:0}
+.story-viewer-nav-right{right:0}

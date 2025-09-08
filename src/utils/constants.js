@@ -32,9 +32,9 @@ export const COLORS = {
 
 // פרטי יצירת קשר
 export const CONTACT_INFO = {
-    phone: '050-1234567',
+    phone: ' 050-7973104',
     email: 'yaniv@example.com',
-    whatsapp: '972501234567',
+    whatsapp: '972507973104',
     social: {
         instagram: 'https://instagram.com/yaniv_photography',
         facebook: 'https://facebook.com/yaniv.photography'

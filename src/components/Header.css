@@ -1,0 +1,73 @@
+/* src/components/Header.css */
+
+/* --- עיצוב קישורי ניווט בדסקטופ --- */
+.desktop-nav-link {
+    position: relative;
+    padding: 8px 4px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* יצירת הקו התחתון באנימציה */
+.desktop-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0; /* מתחיל מימין בגלל RTL */
+    width: 0;
+    height: 2px;
+    background-color: currentColor; /* יקבל את צבע הטקסט */
+    transition: width 0.3s ease-out;
+}
+
+.desktop-nav-link:hover::after {
+    width: 100%;
+}
+
+/* --- תפריט מסך מלא במובייל --- */
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 45; /* מתחת לכפתור הסגירה */
+
+    /* אנימציית כניסה */
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 2rem;
+}
+
+/* אנימציית כניסה לקישורים, אחד אחרי השני */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-nav-link {
+    font-size: 2rem; /* 32px */
+    font-weight: 500;
+    color: white;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* השהייה באנימציה כדי ליצור אפקט מדורג */
+.mobile-nav-link:nth-child(1) { animation-delay: 0.1s; }
+.mobile-nav-link:nth-child(2) { animation-delay: 0.2s; }
+.mobile-nav-link:nth-child(3) { animation-delay: 0.3s; }
+.mobile-nav-link:nth-child(4) { animation-delay: 0.4s; }
+.mobile-nav-link:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
