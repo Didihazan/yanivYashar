@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import './Header.css';
-
-const LOGO_URL =
-    "https://res.cloudinary.com/dwsvrbbw5/image/upload/v1757248571/Screenshot_2025-09-05_084041-removebg-preview_xmkb9t.png";
+import { LOGO_URL } from '../utils/constants';
 
 const Header = () => {
-    // ... כל הלוגיקה נשארת זהה ...
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 

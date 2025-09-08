@@ -1,3 +1,6 @@
+
+export const LOGO_URL = "https://res.cloudinary.com/dwsvrbbw5/image/upload/v1757248571/Screenshot_2025-09-05_084041-removebg-preview_xmkb9t.png";
+
 // צבעים מהלוגו החדש
 export const COLORS = {
     // צבעים עיקריים מהלוגו
