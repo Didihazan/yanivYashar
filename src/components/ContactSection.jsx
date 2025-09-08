@@ -1,151 +1,172 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MessageCircle, Instagram, Facebook } from 'lucide-react';
+import { Phone, Mail, MessageCircle, Instagram, Facebook, Send } from 'lucide-react';
 
 const ContactSection = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', message: '', privacyConsent: false, marketingConsent: false });
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        eventDate: '', // Added event date field
+        message: '',
+        privacyConsent: false,
+        marketingConsent: false
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!formData.privacyConsent) {
-            alert('יש לאשר את מדיניות הפרטיות');
+            alert('יש לאשר את מדיניות הפרטיות כדי להמשיך.');
             return;
         }
-        // שליחת הטופס
+        // Logic to send the form data
         console.log('Form submitted:', formData);
+        alert('הפנייה נשלחה בהצלחה! ניצור קשר בהקדם.');
+        // Optionally reset form
+        setFormData({
+            name: '',
+            email: '',
+            eventDate: '',
+            message: '',
+            privacyConsent: false,
+            marketingConsent: false
+        });
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
     return (
-        <section id="contact" className="py-20 bg-white">
+        <section id="contact" className="py-20 bg-gray-50">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
-                    צור קשר
-                </h2>
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                        מוכנים ליצור זיכרונות?
+                    </h2>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        אשמח לשמוע על האירוע שלכם ולבדוק אם התאריך פנוי. השאירו פרטים ואחזור אליכם בהקדם.
+                    </p>
+                </div>
 
-                <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-                    {/* טופס יצירת קשר */}
-                    <div>
-                        <h3 className="text-xl font-semibold mb-6">שלח הודעה</h3>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <input
-                                type="text"
-                                placeholder="שם מלא"
-                                required
-                                value={formData.name}
-                                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                            />
-                            <input
-                                type="email"
-                                placeholder="כתובת אימייל"
-                                required
-                                value={formData.email}
-                                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                            />
-                            <textarea
-                                placeholder="הודעה"
-                                rows="4"
-                                required
-                                value={formData.message}
-                                onChange={(e) => setFormData({...formData, message: e.target.value})}
-                                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                            ></textarea>
+                <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 md:gap-16 items-start">
 
-                            {/* תיבות אישור חובה לפי תיקון 13 */}
-                            <div className="space-y-3 text-sm">
-                                <label className="flex items-start gap-2">
-                                    <input
-                                        type="checkbox"
-                                        required
-                                        checked={formData.privacyConsent}
-                                        onChange={(e) => setFormData({...formData, privacyConsent: e.target.checked})}
-                                        className="mt-1 accent-orange-500"
-                                    />
-                                    <span>
-                                        אני מסכים למדיניות הפרטיות ולעיבוד הפרטים לצורך מתן מענה לפנייתי *
-                                    </span>
+                    {/* Column 1: The Form */}
+                    <div className="bg-white p-8 rounded-2xl shadow-xl order-last md:order-first">
+                        <h3 className="text-2xl font-bold text-gray-800 mb-6">בדיקת פניות ותאריך</h3>
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            <div>
+                                <label htmlFor="name" className="sr-only">שם מלא</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="שם מלא"
+                                    required
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="sr-only">כתובת אימייל</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="כתובת אימייל"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="eventDate" className="sr-only">תאריך האירוע</label>
+                                <input
+                                    type="date"
+                                    id="eventDate"
+                                    name="eventDate"
+                                    required
+                                    value={formData.eventDate}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition text-gray-500"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="sr-only">הודעה</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    placeholder="ספרו לי קצת על האירוע..."
+                                    rows="4"
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                ></textarea>
+                            </div>
+
+                            <div className="space-y-4 text-sm text-gray-600">
+                                <label className="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" name="privacyConsent" required checked={formData.privacyConsent} onChange={handleInputChange} className="mt-1 accent-orange-500" />
+                                    <span>אני מסכים/ה <a href="#" onClick={(e) => { e.preventDefault(); document.querySelector('[data-modal="privacy"]').click(); }} className="underline hover:text-blue-600">למדיניות הפרטיות</a> ולעיבוד הפרטים לצורך מענה לפנייה. *</span>
                                 </label>
-
-                                <label className="flex items-start gap-2">
-                                    <input
-                                        type="checkbox"
-                                        checked={formData.marketingConsent}
-                                        onChange={(e) => setFormData({...formData, marketingConsent: e.target.checked})}
-                                        className="mt-1 accent-orange-500"
-                                    />
-                                    <span>
-                                        אני מעוניין לקבל עדכונים שיווקיים ומידע על שירותי הצילום (אופציונלי)
-                                    </span>
+                                <label className="flex items-start gap-2 cursor-pointer">
+                                    <input type="checkbox" name="marketingConsent" checked={formData.marketingConsent} onChange={handleInputChange} className="mt-1 accent-orange-500" />
+                                    <span>אני רוצה לקבל עדכונים ומבצעים (אופציונלי).</span>
                                 </label>
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors focus:outline-none focus:ring-4 focus:ring-orange-300"
+                                className="w-full flex items-center justify-center gap-3 bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-orange-300"
                             >
-                                שלח הודעה
+                                <Send className="w-5 h-5" />
+                                שלח פנייה
                             </button>
                         </form>
                     </div>
 
-                    {/* דרכי יצירת קשר */}
-                    <div>
-                        <h3 className="text-xl font-semibold mb-6">דרכי התקשרות</h3>
-
-                        <div className="space-y-4 mb-8">
-                            <a
-                                href="tel:050-1234567"
-                                className="flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-green-300"
-                                aria-label="התקשר ליניב ישר"
-                            >
-                                <Phone className="w-5 h-5" aria-hidden="true" />
-                                <span>050-1234567</span>
-                            </a>
-
-                            <a
-                                href="https://wa.me/972501234567"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-3 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-green-300"
-                                aria-label="שלח הודעה ווצאפ ליניב ישר"
-                            >
-                                <MessageCircle className="w-5 h-5" aria-hidden="true" />
-                                <span>WhatsApp</span>
-                            </a>
-
-                            <a
-                                href="mailto:yaniv@example.com"
-                                className="flex items-center gap-3 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg transition-colors focus:outline-none focus:ring-4 focus:ring-blue-300"
-                                aria-label="שלח מייל ליניב ישר"
-                            >
-                                <Mail className="w-5 h-5" aria-hidden="true" />
-                                <span>yaniv@example.com</span>
-                            </a>
+                    {/* Column 2: Contact Info */}
+                    <div className="space-y-8">
+                        <div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4">דרכי התקשרות נוספות</h3>
+                            <div className="space-y-4">
+                                <a href="tel:050-1234567" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+                                    <div className="bg-blue-100 text-blue-600 rounded-full p-3">
+                                        <Phone className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-gray-800">טלפון</p>
+                                        <p className="text-gray-600 group-hover:text-blue-600 transition-colors">050-1234567</p>
+                                    </div>
+                                </a>
+                                <a href="https://wa.me/972501234567" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group">
+                                    <div className="bg-green-100 text-green-600 rounded-full p-3">
+                                        <MessageCircle className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-gray-800">WhatsApp</p>
+                                        <p className="text-gray-600 group-hover:text-green-600 transition-colors">שלח הודעה מהירה</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-
-                        {/* רשתות חברתיות */}
-                        <div className="flex gap-4">
-                            <a
-                                href="https://instagram.com/yaniv_photography"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-600 hover:text-pink-500 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 rounded p-2"
-                                aria-label="עקוב אחרי יניב באינסטגרם"
-                            >
-                                <Instagram className="w-8 h-8" aria-hidden="true" />
-                            </a>
-
-                            <a
-                                href="https://facebook.com/yaniv.photography"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-600 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded p-2"
-                                aria-label="עקוב אחרי יניב בפייסבוק"
-                            >
-                                <Facebook className="w-8 h-8" aria-hidden="true" />
-                            </a>
+                        <div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-4">עקבו אחרי ברשתות</h3>
+                            <div className="flex gap-4">
+                                <a href="https://instagram.com/yaniv_photography" target="_blank" rel="noopener noreferrer" aria-label="אינסטגרם" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-110">
+                                    <Instagram className="w-7 h-7 text-pink-600" />
+                                </a>
+                                <a href="https://facebook.com/yaniv.photography" target="_blank" rel="noopener noreferrer" aria-label="פייסבוק" className="p-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all transform hover:scale-110">
+                                    <Facebook className="w-7 h-7 text-blue-600" />
+                                </a>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>

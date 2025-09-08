@@ -1,6 +1,6 @@
 .album-container {
     width: 100%;
-    height: 80vh; /* Takes up a good portion of the screen height */
+    height: 40vh; /* Takes up a good portion of the screen height */
     display: flex;
     justify-content: center;
     align-items: center;
