@@ -45,15 +45,15 @@ const Header = () => {
             }`}
             dir="rtl"
         >
-            <nav className="container mx-auto px-4 py-3">
+            <nav className="container mx-auto px-6 py-3">
                 <div className="flex items-center justify-between">
-                    {/* ניווט דסקטופ */}
-                    <ul className="hidden md:flex items-center gap-8" role="menubar">
+                    {/* ניווט דסקטופ - עם רווח מהצד */}
+                    <ul className="hidden md:flex items-center gap-8 ml-12" role="menubar">
                         {menuItems.map((item) => (
                             <li key={item.id} role="none">
                                 <button
                                     onClick={() => scrollToSection(item.id)}
-                                    className={`${linkBase} ${linkColors}`}
+                                    className={`${linkBase} ${linkColors} text-xl`}
                                     role="menuitem"
                                     aria-label={`עבור לסקשן ${item.label}`}
                                 >
@@ -81,36 +81,57 @@ const Header = () => {
                         )}
                     </button>
 
-                    {/* לוגו – שקוף על הרואו, נראה על לבן אחרי גלילה */}
-                    <button
-                        onClick={() => scrollToSection("home")}
-                        className="flex items-center gap-2 group"
-                        aria-label="חזרה לראש הדף"
-                    >
-                        <img
-                            src={LOGO_URL}
-                            alt="יניב ישר – לוגו"
-                            className={`h-9 w-auto select-none pointer-events-none
-                          drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]`}
-                        />
-                        <span
-                            className={`text-xl font-bold transition-colors ${
-                                isScrolled ? "text-gray-900" : "text-white"
-                            }`}
+                    {/* לוגו */}
+                    <div className="flex items-center">
+                        {/* במובייל - לוגו במרכז */}
+                        <button
+                            onClick={() => scrollToSection("home")}
+                            className="md:hidden absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2 group"
+                            aria-label="חזרה לראש הדף"
                         >
-            </span>
-                    </button>
+                            <img
+                                src={LOGO_URL}
+                                alt="יניב ישר – לוגו"
+                                className="h-9 w-auto select-none pointer-events-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
+                            />
+                            <span
+                                className={`text-xl font-bold transition-colors ${
+                                    isScrolled ? "text-gray-900" : "text-white"
+                                }`}
+                            >
+                            </span>
+                        </button>
+
+                        {/* בדסקטופ - לוגו בצד עם רווח */}
+                        <button
+                            onClick={() => scrollToSection("home")}
+                            className="hidden md:flex items-center gap-2 group mr-8"
+                            aria-label="חזרה לראש הדף"
+                        >
+                            <img
+                                src={LOGO_URL}
+                                alt="יניב ישר – לוגו"
+                                className="h-9 w-auto select-none pointer-events-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
+                            />
+                            <span
+                                className={`text-xl font-bold transition-colors ${
+                                    isScrolled ? "text-gray-900" : "text-white"
+                                }`}
+                            >
+                            </span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* תפריט מובייל */}
+                {/* תפריט מובייל מודרני */}
                 {isMobileMenuOpen && (
-                    <div className="md:hidden mt-4 pb-4 border-t border-gray-200 bg-white/95 backdrop-blur-sm">
-                        <ul className="flex flex-col space-y-2 mt-4" role="menu">
+                    <div className="md:hidden mt-4 pb-4 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-100">
+                        <ul className="flex flex-col space-y-1 p-4" role="menu">
                             {menuItems.map((item) => (
                                 <li key={item.id} role="none">
                                     <button
                                         onClick={() => scrollToSection(item.id)}
-                                        className="w-full text-right py-3 px-4 text-gray-800 hover:text-blue-600 hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                                        className="w-full text-right py-4 px-4 text-gray-800 hover:text-blue-600 hover:bg-blue-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg text-lg font-medium"
                                         role="menuitem"
                                         aria-label={`עבור לסקשן ${item.label}`}
                                     >
