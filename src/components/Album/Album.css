@@ -1,0 +1,75 @@
+.album-container {
+    width: 100%;
+    height: 80vh; /* Takes up a good portion of the screen height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.photo-album {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    background: #fff; /* A fallback background */
+}
+
+.page {
+    background: linear-gradient(145deg, #ffffff 0%, #f9f9f9 100%);
+    border: 1px solid #e0e0e0;
+}
+
+.page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Cover Styling */
+.page-cover {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 6px 6px 0; /* Rounded corner for the cover */
+}
+
+.page-cover h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Inner Page Styling */
+.page-image-container {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.page-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.page-footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: #555;
+}

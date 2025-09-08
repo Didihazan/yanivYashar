@@ -66,7 +66,7 @@ export default function HeroSection() {
             <div className="relative z-20 w-full -mt-10 sm:-mt-14">
                 <div className="mx-auto max-w-5xl px-4 sm:px-6">
                     <div className="bg-white/70 backdrop-blur rounded-2xl shadow-xl p-4 sm:p-6">
-                        {/* כותרת קטנה (אופציונלי) */}
+                        {/* כותרת קטנה - קריאה בלבד */}
                         <h2 className="sr-only">סטוריז</h2>
 
                         {/* מובייל – גלילה אופקית */}
