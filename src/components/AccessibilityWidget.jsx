@@ -200,7 +200,7 @@ const AccessibilityWidget = () => {
             {/* אייקון צף מודרני */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed left-4 bottom-1 transform -translate-y-1/2 z-50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 group"
+                className="fixed left-4 bottom-1 transform -translate-y-1/2 z-50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 group cursor-pointer"
                 aria-label="פתח תפריט נגישות"
                 title="נגישות"
             >
@@ -219,7 +219,7 @@ const AccessibilityWidget = () => {
                         <div className="flex gap-1">
                             <button
                                 onClick={hideWidget}
-                                className="text-gray-400 hover:text-gray-600 p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="text-gray-400 hover:text-gray-600 p-1.5 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
                                 aria-label="הסתר לחות"
                                 title="הסתר ל-24 שעות"
                             >
@@ -227,7 +227,7 @@ const AccessibilityWidget = () => {
                             </button>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="text-gray-400 hover:text-gray-600 p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+                                className="text-gray-400 hover:text-gray-600 p-1.5 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
                                 aria-label="סגור תפריט נגישות"
                             >
                                 <X className="w-4 h-4" />
@@ -244,7 +244,7 @@ const AccessibilityWidget = () => {
                         <div className="flex items-center gap-3 bg-gray-50 rounded-lg p-3">
                             <button
                                 onClick={() => changeFontSize(-10)}
-                                className="bg-white hover:bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                                className="bg-white hover:bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer"
                                 aria-label="הקטן טקסט"
                             >
                                 א-
@@ -260,7 +260,7 @@ const AccessibilityWidget = () => {
                             </div>
                             <button
                                 onClick={() => changeFontSize(10)}
-                                className="bg-white hover:bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                                className="bg-white hover:bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer"
                                 aria-label="הגדל טקסט"
                             >
                                 א+
@@ -306,7 +306,7 @@ const AccessibilityWidget = () => {
                     <div className="space-y-3 mb-6">
                         <button
                             onClick={resetSettings}
-                            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                            className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 cursor-pointer"
                         >
                             <RotateCcw className="w-4 h-4" />
                             איפוס הגדרות
@@ -317,13 +317,13 @@ const AccessibilityWidget = () => {
                     <div className="space-y-2 pt-4 border-t border-gray-100">
                         <button
                             onClick={reportAccessibilityIssue}
-                            className="w-full text-right text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors"
+                            className="w-full text-right text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors cursor-pointer"
                         >
                             📞 דווח על בעיית נגישות
                         </button>
                         <button
                             onClick={openAccessibilityStatement}
-                            className="w-full text-right text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors"
+                            className="w-full text-right text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 p-2 rounded-lg transition-colors cursor-pointer"
                         >
                             📋 הצהרת נגישות מלאה
                         </button>

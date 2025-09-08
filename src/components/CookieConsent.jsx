@@ -16,7 +16,7 @@ const CookieConsent = () => {
                             const privacyButton = document.querySelector('[data-modal="privacy"]');
                             if (privacyButton) privacyButton.click();
                         }}
-                        className="underline mr-1 hover:text-orange-300"
+                        className="underline mr-1 hover:text-orange-300 cursor-pointer"
                     >
                         קרא עוד במדיניות הפרטיות
                     </button>
@@ -24,13 +24,13 @@ const CookieConsent = () => {
                 <div className="flex gap-3">
                     <button
                         onClick={() => setIsVisible(false)}
-                        className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded text-sm font-medium transition-colors"
+                        className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded text-sm font-medium transition-colors cursor-pointer"
                     >
                         אני מסכים
                     </button>
                     <button
                         onClick={() => setIsVisible(false)}
-                        className="border border-gray-400 hover:border-white px-4 py-2 rounded text-sm transition-colors"
+                        className="border border-gray-400 hover:border-white px-4 py-2 rounded text-sm transition-colors cursor-pointer"
                     >
                         דחה
                     </button>

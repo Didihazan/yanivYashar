@@ -225,7 +225,7 @@ const LegalModals = () => {
                         <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
                         <button
                             onClick={() => setActiveModal(null)}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
                             aria-label="סגור חלון"
                         >
                             <X className="w-6 h-6 text-gray-600" />
@@ -237,7 +237,7 @@ const LegalModals = () => {
                     <div className="border-t p-6 flex justify-end">
                         <button
                             onClick={() => setActiveModal(null)}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
                         >
                             סגור
                         </button>
