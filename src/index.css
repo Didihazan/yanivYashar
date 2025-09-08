@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap');
+@import "tailwindcss";
 
 html {
     scroll-behavior: smooth;
@@ -20,4 +20,14 @@ body {
 button:focus, a:focus, input:focus, textarea:focus {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
+}
+
+/* סגנונות עבור הסתרת scrollbar */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }

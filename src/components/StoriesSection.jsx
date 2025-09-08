@@ -169,16 +169,6 @@ const StoriesSection = () => {
                     ))}
                 </div>
             </div>
-
-            <style jsx>{`
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </>
     );
 
@@ -280,16 +270,6 @@ const StoriesSection = () => {
                     <div className="md:hidden absolute left-0 top-0 bottom-0 w-1/3 z-10" onClick={nextImage} />
                 </div>
             )}
-
-            <style jsx>{`
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </>
     );
 };
