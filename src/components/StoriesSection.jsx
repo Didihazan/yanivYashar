@@ -247,17 +247,35 @@ const StoriesSection = () => {
                         onTouchEnd={() => setIsPaused(false)}
                     >
                         {currentImage && (
-                            <div className="relative w-full h-full flex items-center justify-center">
-                                <img
-                                    src={getImageUrl(currentImage.publicId, 800, 600)}
-                                    alt={currentImage.alt}
-                                    className="max-w-full max-h-full object-contain"
-                                    loading="lazy"
+                            <div className="relative w-full h-full">
+                                {/* רקע מטושטש - כמו באינסטגרם */}
+                                <div
+                                    className="absolute inset-0 bg-cover bg-center filter blur-lg scale-110"
+                                    style={{
+                                        backgroundImage: `url(${getImageUrl(currentImage.publicId, 400, 600)})`,
+                                    }}
+                                    aria-hidden="true"
                                 />
 
+                                {/* שכבת כהה על הרקע */}
+                                <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
+
+                                {/* התמונה הראשית */}
+                                <div className="relative w-full h-full flex items-center justify-center p-4">
+                                    <img
+                                        src={getImageUrl(currentImage.publicId, 800, 600)}
+                                        alt={currentImage.alt}
+                                        className="max-w-full max-h-full object-contain shadow-2xl"
+                                        style={{
+                                            maxHeight: 'calc(100vh - 120px)', // מקום לכותרת וכיתוב
+                                        }}
+                                        loading="lazy"
+                                    />
+                                </div>
+
                                 {/* כיתוב התמונה */}
-                                <div className="absolute bottom-20 left-4 right-4 text-center">
-                                    <p className="text-white text-lg font-medium bg-black/30 backdrop-blur-sm rounded-lg px-4 py-2">
+                                <div className="absolute bottom-4 left-4 right-4 text-center z-10">
+                                    <p className="text-white text-sm md:text-lg font-medium bg-black/50 backdrop-blur-sm rounded-lg px-4 py-2 shadow-lg">
                                         {currentImage.caption}
                                     </p>
                                 </div>
