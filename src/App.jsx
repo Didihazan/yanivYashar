@@ -9,6 +9,7 @@ import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import CookieConsent from './components/CookieConsent';
 import AccessibilityWidget from "./components/AccessibilityWidget.jsx";
+import ScrollToTopButton from './components/ScrollToTopButton'; // 1. ייבוא הקומפוננטה החדשה
 
 const App = () => {
     return (
@@ -25,6 +26,7 @@ const App = () => {
             <Footer />
             <CookieConsent />
             <AccessibilityWidget />
+            <ScrollToTopButton /> {/* 2. הוספת הקומפוננטה כאן */}
         </div>
     );
 };
