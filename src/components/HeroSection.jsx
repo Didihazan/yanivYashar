@@ -50,18 +50,11 @@ export default function HeroSection() {
             >
                 <div className="h-full grid place-items-center text-center">
                     <div>
-                        <h1 className="text-white text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                        <h1 className="text-white text-4xl md:text-6xl font-bold leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
                             צילום אירועים ברמה אחרת
                         </h1>
 
-                        <div className="mt-6">
-                            <a
-                                href="#contact"
-                                className="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-transform duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-4 focus-visible:ring-orange-300 shadow-lg"
-                            >
-                                סגור איתי תאריך
-                            </a>
-                        </div>
+
                     </div>
                 </div>
             </div>

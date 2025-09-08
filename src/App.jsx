@@ -12,7 +12,7 @@ import AccessibilityWidget from "./components/AccessibilityWidget.jsx";
 
 const App = () => {
     return (
-        <div className="font-sans" dir="rtl">
+        <div className="font-Heebo" dir="rtl">
             <Header />
             <main>
                 <HeroSection />

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const LOGO_URL =
-    "https://res.cloudinary.com/dwsvrbbw5/image/upload/v1757247884/Screenshot_2025-09-05_084041_wvbi8f.png";
+    "https://res.cloudinary.com/dwsvrbbw5/image/upload/v1757248571/Screenshot_2025-09-05_084041-removebg-preview_xmkb9t.png";
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,9 +75,9 @@ const Header = () => {
                         aria-expanded={isMobileMenuOpen}
                     >
                         {isMobileMenuOpen ? (
-                            <X className="w-6 h-6" />
+                            <X className="w-8 h-8" />
                         ) : (
-                            <Menu className="w-6 h-6" />
+                            <Menu className="w-8 h-8" />
                         )}
                     </button>
 
