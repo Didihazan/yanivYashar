@@ -200,7 +200,7 @@ const AccessibilityWidget = () => {
             {/* אייקון צף מודרני */}
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 group"
+                className="fixed left-4 bottom-1 transform -translate-y-1/2 z-50 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-blue-300 group"
                 aria-label="פתח תפריט נגישות"
                 title="נגישות"
             >
