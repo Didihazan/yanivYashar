@@ -32,7 +32,7 @@ const Header = () => {
         { id: "contact", label: "צור קשר" },
     ];
 
-    const linkBase = "transition-colors focus:outline-none focus:ring-2 rounded-sm whitespace-nowrap cursor-pointer"; // הוספנו whitespace-nowrap
+    const linkBase = "transition-colors focus:outline-none focus:ring-2 rounded-sm whitespace-nowrap cursor-pointer";
     const linkColors = isScrolled
         ? "text-gray-800 hover:text-orange-600 focus:ring-orange-500"
         : "text-white/90 hover:text-white focus:ring-white/70";
