@@ -24,7 +24,6 @@ const App = () => {
                 <ContactSection />
             </main>
             <Footer />
-            <CookieConsent />
             <AccessibilityWidget />
             <ScrollToTopButton /> {/* 2. הוספת הקומפוננטה כאן */}
         </div>

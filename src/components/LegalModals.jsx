@@ -1,280 +1,272 @@
-import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import { X } from "lucide-react";
 
-const LegalModals = () => {
-    const [activeModal, setActiveModal] = useState(null);
+const BUTTON_CLS =
+    "hover:text-white underline transition-colors outline-none focus:ring-2 focus:ring-white rounded cursor-pointer";
+const OVERLAY_CLS =
+    "fixed inset-0 bg-black/50 backdrop-blur-[1px] z-[1000] flex items-center justify-center p-4";
+const MODAL_CLS =
+    "relative w-full max-w-3xl bg-white rounded-2xl shadow-xl p-6 md:p-8 text-right";
+const CLOSE_BTN_CLS =
+    "absolute -top-3 -left-3 bg-gray-800 text-white rounded-full p-2 shadow focus:outline-none focus:ring-2 focus:ring-gray-300";
+const H1_CLS = "text-2xl md:text-3xl font-bold text-gray-900 mb-4";
+const H2_CLS = "text-xl font-semibold text-gray-800 mb-3";
+const P_CLS = "text-gray-700 leading-relaxed mb-3";
+const LI_CLS = "text-gray-700 leading-relaxed list-inside list-disc mb-1";
 
+function useFocusTrap(isOpen, ref) {
     useEffect(() => {
-        const handleEscape = (e) => {
-            if (e.key === 'Escape') {
-                setActiveModal(null);
+        if (!isOpen || !ref.current) return;
+        const el = ref.current;
+        const focusable = el.querySelectorAll(
+            'a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        first && first.focus();
+
+        const handleKeyDown = (e) => {
+            if (e.key === "Escape") {
+                el.dispatchEvent(new CustomEvent("modal:close", { bubbles: true }));
+            }
+            if (e.key === "Tab") {
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
         };
+        el.addEventListener("keydown", handleKeyDown);
+        return () => el.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen, ref]);
+}
 
-        if (activeModal) {
-            document.addEventListener('keydown', handleEscape);
-            document.body.style.overflow = 'hidden';
+const Section = ({ title, children, id }) => (
+    <section aria-labelledby={id} className="mb-5">
+        <h2 id={id} className={H2_CLS}>
+            {title}
+        </h2>
+        <div>{children}</div>
+    </section>
+);
+
+const LegalModals = () => {
+    const [active, setActive] = useState(null); // 'privacy' | 'accessibility' | 'terms' | null
+    const modalRef = useRef(null);
+
+    // ESC + גלילת-רקע
+    useEffect(() => {
+        const onEsc = (e) => e.key === "Escape" && setActive(null);
+        if (active) {
+            document.addEventListener("keydown", onEsc);
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
         }
+        return () => document.removeEventListener("keydown", onEsc);
+    }, [active]);
 
-        return () => {
-            document.removeEventListener('keydown', handleEscape);
-            document.body.style.overflow = 'unset';
-        };
-    }, [activeModal]);
+    // Focus trap
+    useFocusTrap(Boolean(active), modalRef);
+
+    // Custom close from focus trap
+    useEffect(() => {
+        const handler = () => setActive(null);
+        const el = modalRef.current;
+        if (!el) return;
+        el.addEventListener("modal:close", handler);
+        return () => el.removeEventListener("modal:close", handler);
+    }, [modalRef, active]);
+
+    const close = () => setActive(null);
+
+    const ModalFrame = ({ title, children }) => (
+        <div className={OVERLAY_CLS} role="dialog" aria-modal="true" dir="rtl">
+            <div ref={modalRef} className={MODAL_CLS}>
+                <button
+                    onClick={close}
+                    aria-label="סגירת חלון"
+                    className={CLOSE_BTN_CLS}
+                >
+                    <X size={18} />
+                </button>
+                <h1 className={H1_CLS}>{title}</h1>
+                <div className="max-h-[70vh] overflow-y-auto pr-1">{children}</div>
+                <div className="mt-6 flex justify-start gap-3">
+                    <button onClick={close} className="btn btn-primary px-4 py-2 rounded bg-gray-900 text-white">
+                        סגור
+                    </button>
+                </div>
+            </div>
+            <button
+                className="absolute inset-0 -z-10"
+                aria-label="סגירת החלון"
+                onClick={close}
+            />
+        </div>
+    );
 
     const PrivacyContent = () => (
-        <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">מדיניות פרטיות</h1>
+        <ModalFrame title="הצהרת פרטיות">
+            <p className={P_CLS}>
+                אתר זה נועד להצגת תיק עבודות, תמונות, מידע על השירות וקישורים לרשתות חברתיות.
+                האתר אינו מפעיל טפסי יצירת קשר ואינו מבצע איסוף יזום של מידע אישי מזוהה.
+            </p>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">1. מידע שאנו אוספים</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li><strong>מידע אישי:</strong> שם, טלפון, אימייל, פרטי האירוע</li>
-                    <li><strong>מידע טכני:</strong> כתובת IP, סוג דפדפן, עוגיות</li>
-                    <li><strong>תמונות:</strong> תמונות שצולמו באירועים (עם הסכמה)</li>
+            <Section title="איזה מידע איננו אוספים" id="no-collect">
+                <ul className="list-disc pl-5">
+                    <li className={LI_CLS}>אין רישום משתמשים, אין טפסים, ואין ניוזלטר.</li>
+                    <li className={LI_CLS}>אין Google Analytics, Meta Pixel או כלי ניטור/שיווק דומים.</li>
                 </ul>
-            </section>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">2. מטרות עיבוד המידע</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>תיאום ומתן שירותי צילום</li>
-                    <li>שיפור חוויית המשתמש באתר</li>
-                    <li>שיווק שירותים (רק בהסכמה מפורשת)</li>
-                    <li>עמידה בחובות חוקיים</li>
-                </ul>
-            </section>
+            <Section title="מידע טכני ותכונות דפדפן" id="tech">
+                <p className={P_CLS}>
+                    לצורך שיפור נגישות וחוויה, האתר עשוי לשמור העדפות לא־מזוהות בדפדפן
+                    (למשל: הגדלת גופן, ניגודיות גבוהה, גווני אפור, היפוך צבעים, מדריך קריאה, הפחתת אנימציות),
+                    באמצעות מנגנון ה־localStorage המקומי של הדפדפן. מידע זה נשמר מקומית במכשירך בלבד ואינו
+                    נשלח אלינו.
+                </p>
+                <p className={P_CLS}>
+                    יצירת קשר דרך קישורי טלפון/WhatsApp/Instagram/Facebook מתבצעת ישירות בפלטפורמות אלה,
+                    וכפופה למדיניות הפרטיות שלהן.
+                </p>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">3. עוגיות (Cookies)</h2>
-                <div className="text-gray-600">
-                    <p className="mb-2">האתר משתמש בעוגיות:</p>
-                    <ul className="list-disc list-inside space-y-1">
-                        <li><strong>עוגיות הכרחיות:</strong> לתפקוד בסיסי של האתר</li>
-                        <li><strong>Google Analytics:</strong> לניתוח תנועה באתר</li>
-                        <li><strong>עוגיות שיווק:</strong> רק בהסכמה מפורשת</li>
-                    </ul>
-                </div>
-            </section>
+            <Section title="פנייה בנושאי פרטיות" id="contact">
+                <p className={P_CLS}>
+                    לשאלות בנושא פרטיות ניתן ליצור קשר בטלפון <a className="underline" href="tel:050-7973104">050-7973104</a>
+                    {" "}או ב־WhatsApp בכתובת{" "}
+                    <a className="underline" href="https://wa.me/972507973104" target="_blank" rel="noreferrer">
+                        wa.me/972507973104
+                    </a>.
+                </p>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">4. זכויותיך לפי תיקון 13</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li><strong>זכות עיון:</strong> לקבל עותק מהמידע השמור עליך</li>
-                    <li><strong>זכות תיקון:</strong> לתקן מידע שגוי</li>
-                    <li><strong>זכות למחיקה:</strong> להישכח ולמחוק את כל הפרטים</li>
-                    <li><strong>זכות להתנגדות:</strong> להתנגד לעיבוד מידע שיווקי</li>
-                    <li><strong>זכות להעברה:</strong> לקבל המידע בפורמט מובנה</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">5. אבטחת מידע</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>הצפנת SSL לכל תקשורת האתר</li>
-                    <li>שמירת מידע על שרתים מאובטחים בישראל</li>
-                    <li>גישה מוגבלת למידע רק לעובדים מורשים</li>
-                    <li>גיבויים מוצפנים יומיים</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">6. שיתוף מידע עם צדדים שלישיים</h2>
-                <div className="text-gray-600">
-                    <p className="mb-2">אנו משתפים מידע עם:</p>
-                    <ul className="list-disc list-inside space-y-1">
-                        <li>ספקי שירותי תשלום (לעיבוד תשלומים)</li>
-                        <li>חברות אחסון ענן (Google Drive, Dropbox)</li>
-                        <li>ספקי שירותי אימייל (Gmail, Outlook)</li>
-                        <li>רק כנדרש על פי חוק או עם הסכמתך</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">7. יצירת קשר וממש זכויות</h2>
-                <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-gray-700 font-medium mb-2">ממונה הגנת פרטיות:</p>
-                    <p className="text-gray-600">יניב ישר</p>
-                    <p className="text-gray-600">אימייל: privacy@yaniv-photography.com</p>
-                    <p className="text-gray-600">טלפון:  050-7973104</p>
-                    <p className="text-gray-600 mt-2">מענה תוך 30 יום לכל בקשה</p>
-                </div>
-            </section>
-
-            <div className="border-t pt-4 text-sm text-gray-500">
-                <p>עדכון אחרון: ספטמבר 2025 | תואם לתיקון 13 לחוק הגנת הפרטיות</p>
-            </div>
-        </div>
+            <Section title="שינויים בהצהרה" id="changes">
+                <p className={P_CLS}>
+                    נעדכן הצהרה זו מעת לעת. המשך שימוש באתר לאחר עדכון מהווה הסכמה לנוסח המעודכן.
+                </p>
+            </Section>
+        </ModalFrame>
     );
 
     const AccessibilityContent = () => (
-        <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">הצהרת נגישות</h1>
+        <ModalFrame title="הצהרת נגישות">
+            <p className={P_CLS}>
+                אנו שואפים להנגיש את האתר לכלל המשתמשים, כולל אנשים עם מוגבלויות, בהתאם לעקרונות
+                <span className="whitespace-nowrap"> WCAG 2.1 ברמת AA</span> במידת האפשר.
+                באתר מיושמות התאמות נגישות, ואנו פועלים לשיפור מתמיד.
+            </p>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">מחויבות לנגישות</h2>
-                <p className="text-gray-600 leading-relaxed">
-                    יניב ישר מחויב להבטיח שהאתר נגיש לכלל האוכלוסייה.
-                    אנו פועלים בהתאם לתקן הישראלי 5568 ולהנחיות WCAG 2.0 ברמה AA.
+            <Section title="התאמות נגישות שקיימות באתר" id="features">
+                <ul className="list-disc pl-5">
+                    <li className={LI_CLS}>וידג׳ט נגישות הכולל: הגדלת/הקטנת גופן, ניגודיות גבוהה, גווני אפור, היפוך צבעים, מדריך קריאה והפחתת אנימציות.</li>
+                    <li className={LI_CLS}>תמונות נטענות עם מאפיין <code>alt</code> ותיאורים רלוונטיים בתיקי העבודות.</li>
+                    <li className={LI_CLS}>תמיכה ב־RTL, מבנה כותרות סמנטי, ותיאורי ARIA סלקטיביים לרכיבים מרכזיים.</li>
+                    <li className={LI_CLS}>כפתורי סגירה בחלונות וקיצורי מקלדת (למשל Escape) לסגירת מודלים.</li>
+                    <li className={LI_CLS}>טעינה מדורגת של גלריות ותמונות ב־<code>loading="lazy"</code> לשיפור ביצועים.</li>
+                </ul>
+            </Section>
+
+            <Section title="מגבלות ידועות ושיפור מתמשך" id="limits">
+                <ul className="list-disc pl-5">
+                    <li className={LI_CLS}>
+                        רכיבי גלריה דינמיים עשויים לדרוש ניווט במקלדת בתשומת לב (Next/Prev/Escape). נשפר בהתאם למשוב.
+                    </li>
+                </ul>
+                <p className={P_CLS}>
+                    אם נתקלתם בקושי נגישות, נשמח לדעת כדי שנוכל לתקן. פנו אלינו ונעשה מאמץ סביר להסרת החסמים.
                 </p>
-            </section>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">הסדרי נגישות באתר</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>ניווט מקלדת מלא</li>
-                    <li>תמיכה בקוראי מסך</li>
-                    <li>ניגודיות צבעים תקינה</li>
-                    <li>תיאורים חלופיים לתמונות</li>
-                    <li>כותרות מובנות</li>
-                    <li>תמיכה בהגדלת טקסט עד 200%</li>
-                </ul>
-            </section>
+            <Section title="ערוצי פנייה לנגישות" id="acc-contact">
+                <p className={P_CLS}>
+                    מוקד נגישות: טלפון{" "}
+                    <a className="underline" href="tel:050-7973104">050-7973104</a>,{" "}
+                    WhatsApp{" "}
+                    <a className="underline" href="https://wa.me/972507973104" target="_blank" rel="noreferrer">
+                        wa.me/972507973104
+                    </a>.
+                </p>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">הסדרי נגישות בעסק</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>פגישות בלקוחות במקומות נגישים</li>
-                    <li>תקשורת בווידאו קול או מייל</li>
-                    <li>התאמת שירותים לצרכים מיוחדים</li>
-                    <li>אפשרות לליווי בצילומים</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">דרכי פנייה</h2>
-                <div className="bg-green-50 p-4 rounded-lg">
-                    <p className="text-gray-700 font-medium mb-2">רכז נגישות:</p>
-                    <p className="text-gray-600">יניב ישר</p>
-                    <p className="text-gray-600">אימייל: accessibility@yaniv-photography.com</p>
-                    <p className="text-gray-600">טלפון:  050-7973104</p>
-                    <p className="text-gray-600">מענה: ראשון-חמישי, 9:00-17:00</p>
-                </div>
-            </section>
-
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">משוב על נגישות</h2>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-600 mb-3">נתקלת בבעיית נגישות? אנא ספר לנו:</p>
-                    <textarea
-                        placeholder="תאר את הבעיה שנתקלת בה"
-                        className="w-full p-3 border rounded-lg"
-                        rows="3"
-                    ></textarea>
-                    <button className="mt-2 bg-green-500 text-white px-4 py-2 rounded cursor-pointer">
-                        שלח משוב
-                    </button>
-                </div>
-            </section>
-
-            <div className="border-t pt-4 text-sm text-gray-500">
-                <p>עדכון אחרון: ספטמבר 2025 | בהתאם לתקן הישראלי 5568</p>
-            </div>
-        </div>
+            <Section title="תאריך עדכון" id="date">
+                <p className={P_CLS}>עודכן לאחרונה: ספטמבר 2025.</p>
+            </Section>
+        </ModalFrame>
     );
 
     const TermsContent = () => (
-        <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">תנאי שימוש</h1>
+        <ModalFrame title="תנאי שימוש">
+            <p className={P_CLS}>
+                בגלישתך באתר זה, אתה מאשר וקובע כי קראת, הבנת והסכמת לתנאי שימוש אלה. אם אינך מסכים –
+                אנא הימנע מגלישה באתר.
+            </p>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">1. שירותי צילום</h2>
-                <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>השירותים כוללים צילום אירועים: חתונות, בר/בת מצווה ואירועים פרטיים</li>
-                    <li>מחירים לפי מחירון קיים במועד ההזמנה</li>
-                    <li>ביטול עד 30 יום - החזר מלא. פחות מכך - דמי ביטול</li>
+            <Section title="שימוש מותר" id="use">
+                <ul className="list-disc pl-5">
+                    <li className={LI_CLS}>השימוש באתר הוא אישי ולא-מסחרי. אין להעתיק, לשכפל, לפרסם, להפיץ או לבצע יצירות נגזרות ללא הרשאה מראש ובכתב.</li>
+                    <li className={LI_CLS}>חל איסור על שימוש אוטומטי (Scraping, Bots) ללא אישור.</li>
                 </ul>
-            </section>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">2. זכויות יוצרים</h2>
-                <p className="text-gray-600">
-                    כל התמונות שייכות ליניב ישר. הלקוח מקבל רישיון שימוש אישי בלבד.
+            <Section title="קניין רוחני" id="ip">
+                <p className={P_CLS}>
+                    כל הזכויות בתכני האתר, לרבות התמונות, הטקסטים, הלוגו והעיצוב – שמורות ליניב ישר ולבעלי הזכויות.
+                    אין להשתמש בתכנים ללא רשות מפורשת מראש ובכתב.
                 </p>
-            </section>
+            </Section>
 
-            <section>
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">3. אחריות</h2>
-                <p className="text-gray-600">
-                    מתחייבים לשירות מקצועי. באירועים בלתי צפויים - צלם חלופי או החזר כספי.
+            <Section title="קישורים וצדדים שלישיים" id="links">
+                <p className={P_CLS}>
+                    באתר מופנים קישורים לפלטפורמות חיצוניות (לרבות WhatsApp, Instagram, Facebook).
+                    אין לנו שליטה על אתרים אלה ואיננו אחראים למדיניותם או לתוכנם.
                 </p>
-            </section>
+            </Section>
 
-            <div className="border-t pt-4 text-sm text-gray-500">
-                <p>עדכון אחרון: ספטמבר 2025</p>
-            </div>
-        </div>
+            <Section title="הגבלת אחריות" id="liability">
+                <p className={P_CLS}>
+                    האתר וכל תכניו מסופקים &quot;כפי שהם&quot; (AS IS). ייתכנו טעויות, חוסרים או שינויים. לא נהיה אחראים לכל נזק עקיף/תוצאתי הנובע מהשימוש באתר.
+                </p>
+            </Section>
+
+            <Section title="שינויים בתנאים" id="changes-terms">
+                <p className={P_CLS}>
+                    אנו רשאים לעדכן את תנאי השימוש מעת לעת. המשך גלישה מהווה הסכמה לנוסח המעודכן.
+                </p>
+            </Section>
+
+            <Section title="דין ושיפוט" id="law">
+                <p className={P_CLS}>
+                    על תנאים אלה יחולו דיני מדינת ישראל, וסמכות השיפוט הבלעדית נתונה לבתי המשפט המוסמכים בישראל.
+                </p>
+            </Section>
+        </ModalFrame>
     );
-
-    const renderModal = () => {
-        if (!activeModal) return null;
-
-        let content, title;
-        switch (activeModal) {
-            case 'terms': content = <TermsContent />; title = 'תנאי שימוש'; break;
-            case 'privacy': content = <PrivacyContent />; title = 'מדיניות פרטיות'; break;
-            case 'accessibility': content = <AccessibilityContent />; title = 'הצהרת נגישות'; break;
-            default: return null;
-        }
-
-        return (
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-                <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-                    <div className="flex items-center justify-between p-6 border-b">
-                        <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
-                        <button
-                            onClick={() => setActiveModal(null)}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                            aria-label="סגור חלון"
-                        >
-                            <X className="w-6 h-6 text-gray-600" />
-                        </button>
-                    </div>
-                    <div className="flex-1 overflow-y-auto p-6">
-                        {content}
-                    </div>
-                    <div className="border-t p-6 flex justify-end">
-                        <button
-                            onClick={() => setActiveModal(null)}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
-                        >
-                            סגור
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     return (
         <>
-            <div className="legal-links">
-                <button
-                    onClick={() => setActiveModal('terms')}
-                    data-modal="terms"
-                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded cursor-pointer"
-                >
-                    תנאי שימוש
-                </button>
-                <span className="mx-2">|</span>
-                <button
-                    onClick={() => setActiveModal('privacy')}
-                    data-modal="privacy"
-                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded cursor-pointer"
-                >
-                    מדיניות פרטיות
-                </button>
-                <span className="mx-2">|</span>
-                <button
-                    onClick={() => setActiveModal('accessibility')}
-                    data-modal="accessibility"
-                    className="hover:text-white underline transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded cursor-pointer"
-                >
-                    הצהרת נגישות
-                </button>
-            </div>
-            {renderModal()}
+            {/* טריגרים בפוטר */}
+            <button onClick={() => setActive("privacy")} className={BUTTON_CLS}>
+                הצהרת פרטיות
+            </button>
+            <span className="mx-2 text-gray-400">|</span>
+            <button onClick={() => setActive("accessibility")} className={BUTTON_CLS}>
+                הצהרת נגישות
+            </button>
+            <span className="mx-2 text-gray-400">|</span>
+            <button onClick={() => setActive("terms")} className={BUTTON_CLS}>
+                תנאי שימוש
+            </button>
+
+            {/* מודלים */}
+            {active === "privacy" && <PrivacyContent />}
+            {active === "accessibility" && <AccessibilityContent />}
+            {active === "terms" && <TermsContent />}
         </>
     );
 };
